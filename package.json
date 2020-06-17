@@ -74,7 +74,7 @@
   },
   "scripts": {
     "build": "webpack --mode production",
-    "lint": "eslint --quiet '**/*.js'",
+    "lint": "eslint --quiet --fix '**/*.js'",
     "stylelint": "stylelint --quiet --allow-empty-input 'theme/**/*.css' 'docs/**/*.css'",
     "preversion": "npm run build"
   },
@@ -100,6 +100,7 @@
     "@ckeditor/ckeditor5-code-block": "^19.0.1",
     "@ckeditor/ckeditor5-font": "^19.0.1",
     "@ckeditor/ckeditor5-horizontal-line": "^19.0.1",
-    "@ckeditor/ckeditor5-remove-format": "^19.0.1"
+    "@ckeditor/ckeditor5-remove-format": "^19.0.1",
+    "@ckeditor/ckeditor5-vue": "^1.0.1"
   }
 }

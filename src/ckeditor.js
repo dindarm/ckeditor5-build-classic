@@ -77,6 +77,22 @@ class InsertImage extends Plugin {
 	}
 }
 
+class AllowClassesPlugin extends Plugin {
+	init() {
+		const editor = this.editor;
+
+		editor.model.schema.extend( 'listItem', {
+			inheritAllFrom: '$block',
+			allowAttributes: [ 'listType', 'listIndent', 'type' ]
+		} );
+
+		editor.conversion.attributeToAttribute( {
+			model: 'type',
+			view: 'type'
+		} );
+	}
+}
+
 export default class ClassicEditor extends ClassicEditorBase {}
 
 // Plugins to include in the build.
@@ -111,7 +127,9 @@ ClassicEditor.builtinPlugins = [
 
 	HorizontalLine,
 	CodeBlock,
-	InsertImage
+
+	InsertImage,
+	AllowClassesPlugin
 ];
 
 // Editor configuration.
@@ -169,6 +187,26 @@ ClassicEditor.defaultConfig = {
 			'tableProperties',
 			'tableCellProperties'
 		]
+	},
+	link: {
+		decorators: {
+			toggleDownloadable: {
+				mode: 'manual',
+				label: 'İndirilebilir',
+				attributes: {
+					download: 'file'
+				}
+			},
+			openInNewTab: {
+				mode: 'manual',
+				label: 'Yeni sekmede aç',
+				defaultValue: true, // This option will be selected by default.
+				attributes: {
+					target: '_blank',
+					rel: 'noopener noreferrer'
+				}
+			}
+		}
 	},
 	indentBlock: {
 		offset: 1,
