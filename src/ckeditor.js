@@ -58,40 +58,109 @@ class InsertImage extends Plugin {
 	init() {
 		const editor = this.editor;
 
-		editor.ui.componentFactory.add( 'insertImage', locale => {
-			const view = new ButtonView( locale );
+		editor.ui.componentFactory.add('insertImage', locale => {
+			const view = new ButtonView(locale);
 
-			view.set( {
+			view.set({
 				label: 'Dosya yöneticisini aç',
 				icon: imageIcon,
 				tooltip: true
-			} );
+			});
 
 			// Callback executed once the image is clicked.
-			view.on( 'execute', () => {
+			view.on('execute', () => {
 				editor.ownerVM.showFilePicker();
-			} );
+			});
 
 			return view;
-		} );
+		});
 	}
 }
 
-class AllowClassesPlugin extends Plugin {
+/*
+
+class LetterBullet extends Plugin {
 	init() {
 		const editor = this.editor;
 
-		editor.model.schema.extend( 'listItem', {
-			inheritAllFrom: '$block',
-			allowAttributes: [ 'listType', 'listIndent', 'type' ]
-		} );
+		editor.ui.componentFactory.add('letterBullet', locale => {
+			const view = new ButtonView(locale);
 
-		editor.conversion.attributeToAttribute( {
-			model: 'type',
-			view: 'type'
-		} );
+			view.set({
+				label: 'Harfli liste',
+				icon: imageIcon,
+				tooltip: true
+			});
+
+			// Callback executed once the image is clicked.
+			view.on('execute', () => {
+				let command = editor.commands.get('numberedList')
+
+				command.set("foo", 1)
+				console.log('-----');
+				
+				console.log(command);
+		
+				
+				
+				command.once('insert:listItem', (evt, data, conversionApi) => {
+					console.log('once execute');
+					
+					const viewWriter = conversionApi.writer;
+					console.log(evt);
+					console.log(data);
+					console.log(conversionApi);
+					
+					viewWriter.addClass('Mustafa', conversionApi.mapper.toViewElement(data.item));
+				}, {
+					priority: 'low'
+				});
+				command.once('execute', (eventInfo) => {
+					console.log(
+						eventInfo
+					);
+				})
+
+
+				command.execute({deneme: 'mustafa'});
+			});
+
+			return view;
+		});
 	}
 }
+
+
+
+
+function AddClassToAllHeading1(editor) {
+
+	editor.model.schema.extend( '$text', { allowAttributes: 'spxClass' } );
+
+
+	// Both the data and the editing pipelines are affected by this conversion.
+	editor.conversion.for('downcast').add(dispatcher => {
+		// Headings are represented in the model as a "heading1" element.
+		// Use the "low" listener priority to apply the changes after the headings feature.
+		dispatcher.on('insert:listItem', (evt, data, conversionApi) => {
+			console.log('**** EVT');
+			console.log(evt);
+			console.log(data);
+			console.log(conversionApi);
+			console.log('********* EVT SON');
+			
+			
+			
+			const viewWriter = conversionApi.writer;
+			viewWriter.addClass('Deneme', conversionApi.mapper.toViewElement(data.item));
+		}, {
+			priority: 'low'
+		});
+	});
+	
+}
+
+*/
 
 export default class ClassicEditor extends ClassicEditorBase {}
 
@@ -128,8 +197,7 @@ ClassicEditor.builtinPlugins = [
 	HorizontalLine,
 	CodeBlock,
 
-	InsertImage,
-	AllowClassesPlugin
+	InsertImage
 ];
 
 // Editor configuration.
@@ -143,6 +211,7 @@ ClassicEditor.defaultConfig = {
 			'link',
 			'bulletedList',
 			'numberedList',
+			'letterBullet',
 			'|',
 			'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor',
 			'|',
